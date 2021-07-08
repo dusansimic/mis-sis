@@ -20,6 +20,7 @@ public class Stolovi extends Application {
     Stage stage = new Stage();
     Tip tip;
     Message<Sto> porukaZaSto;
+    LocalDate datum;
 
     Button[] stolovi;
 
@@ -28,10 +29,11 @@ public class Stolovi extends Application {
         this.tip = tip;
     }
 
-    public Stolovi(Tip tip, Message<Sto> porukaZaSto) {
+    public Stolovi(Tip tip, Message<Sto> porukaZaSto, LocalDate datum) {
         super();
         this.tip = tip;
         this.porukaZaSto = porukaZaSto;
+        this.datum = datum;
     }
 
     private Parent constructIzbor() {
@@ -43,7 +45,7 @@ public class Stolovi extends Application {
         gp.setVgap(45.0);
         gp.setHgap(45.0);
 
-        List<RezervacijaEntity> rezervacije = Podaci.rezervacijeSkaldiste.sadrzaj().stream().filter(rez -> rez.getDatumVreme().toLocalDate().equals(LocalDate.now())).collect(Collectors.toList());
+        List<RezervacijaEntity> rezervacije = Podaci.rezervacijeSkaldiste.sadrzaj().stream().filter(rez -> rez.getDatumVreme().toLocalDate().equals(datum)).collect(Collectors.toList());
 
         for (int i = 0; i < 5; i++) {
             int finalI = i;

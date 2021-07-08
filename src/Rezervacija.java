@@ -21,6 +21,55 @@ public class Rezervacija extends Application {
 
     Message<Sto> porukaZaSto;
 
+    private void proveraUnosaDatumaIVremena() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        if (datum.getValue() == null) {
+            alert.setTitle("Greška");
+            alert.setHeaderText("Greška!");
+            alert.setContentText("Neispravan unos datuma!");
+            alert.showAndWait();
+            return;
+        }
+        if (sat.getText().length() == 0 || min.getText().length() == 0) {
+            alert.setTitle("Greška");
+            alert.setHeaderText("Greška!");
+            alert.setContentText("Morate uneti sate i minute za rezervaciju!");
+            alert.showAndWait();
+            return;
+        }
+        try {
+            int s = Integer.parseInt(sat.getText());
+            int m = Integer.parseInt(min.getText());
+            LocalTime odabrano = LocalTime.now().withHour(s).withMinute(m);
+            LocalTime najranije = LocalTime.now().withHour(17).withMinute(0);
+            LocalTime najkasnije = LocalTime.now().withHour(22).withMinute(0);
+            if (odabrano.isBefore(najranije) || odabrano.isAfter(najkasnije)) {
+                alert.setTitle("Greška");
+                alert.setHeaderText("Greška!");
+                alert.setContentText("Rezervacije su moguće samo u periodu od 17 do 22h.");
+                alert.showAndWait();
+                return;
+            }
+        } catch (Exception e) {
+            alert.setTitle("Greška");
+            alert.setHeaderText("Greška!");
+            alert.setContentText("Neispravno uneti sati i minuti!");
+            alert.showAndWait();
+            return;
+        }
+    }
+
+    private LocalDateTime getDatumVreme() {
+        return LocalDateTime.now()
+            .withYear(datum.getValue().getYear())
+            .withMonth(datum.getValue().getMonthValue())
+            .withDayOfMonth(datum.getValue().getDayOfMonth())
+            .withHour(Integer.parseInt(sat.getText()))
+            .withMinute(Integer.parseInt(min.getText()))
+            .withSecond(0)
+            .withNano(0);
+    }
+
     @Override
     public void start(Stage primaryStage) {
         GridPane gp = new GridPane();
@@ -40,7 +89,8 @@ public class Rezervacija extends Application {
 
         stoBtn = new Button("Odaberi sto");
         stoBtn.setOnAction(actionEvent -> {
-            Stolovi stolovi = new Stolovi(Stolovi.Tip.Izbor, porukaZaSto);
+            proveraUnosaDatumaIVremena();
+            Stolovi stolovi = new Stolovi(Stolovi.Tip.Izbor, porukaZaSto, getDatumVreme().toLocalDate());
             try {
                 stolovi.show();
             } catch (Exception e) {
@@ -49,51 +99,12 @@ public class Rezervacija extends Application {
         });
         sacuvajBtn = new Button("Sačuvaj");
         sacuvajBtn.setOnAction(actionEvent -> {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            if (datum.getValue() == null) {
-                alert.setTitle("Greška");
-                alert.setHeaderText("Greška!");
-                alert.setContentText("Neispravan unos datuma!");
-                alert.showAndWait();
-                return;
-            }
-            if (sat.getText().length() == 0 || min.getText().length() == 0) {
-                alert.setTitle("Greška");
-                alert.setHeaderText("Greška!");
-                alert.setContentText("Morate uneti sate i minute za rezervaciju!");
-                alert.showAndWait();
-                return;
-            }
-            try {
-                int s = Integer.parseInt(sat.getText());
-                int m = Integer.parseInt(min.getText());
-                LocalTime odabrano = LocalTime.now().withHour(s).withMinute(m);
-                LocalTime najranije = LocalTime.now().withHour(17).withMinute(0);
-                LocalTime najkasnije = LocalTime.now().withHour(22).withMinute(0);
-                if (odabrano.isBefore(najranije) || odabrano.isAfter(najkasnije)) {
-                    alert.setTitle("Greška");
-                    alert.setHeaderText("Greška!");
-                    alert.setContentText("Rezervacije su moguće samo u periodu od 17 do 22h.");
-                    alert.showAndWait();
-                    return;
-                }
-            } catch (Exception e) {
-                alert.setTitle("Greška");
-                alert.setHeaderText("Greška!");
-                alert.setContentText("Neispravno uneti sati i minuti!");
-                alert.showAndWait();
-                return;
-            }
+            proveraUnosaDatumaIVremena();
 
-            LocalDateTime vreme = LocalDateTime.now()
-                    .withYear(datum.getValue().getYear())
-                    .withMonth(datum.getValue().getMonthValue())
-                    .withDayOfMonth(datum.getValue().getDayOfMonth())
-                    .withHour(Integer.parseInt(sat.getText()))
-                    .withMinute(Integer.parseInt(min.getText()))
-                    .withSecond(0);
+            LocalDateTime vreme = getDatumVreme();
             LocalDateTime granica = LocalDateTime.now().withHour(14).withMinute(0);
 
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             if (vreme.isBefore(LocalDateTime.now())) {
                 alert.setTitle("Greška");
                 alert.setHeaderText("Greška!");
