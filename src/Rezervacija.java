@@ -82,7 +82,8 @@ public class Rezervacija extends Application {
                     .withMonth(datum.getValue().getMonthValue())
                     .withDayOfMonth(datum.getValue().getDayOfMonth())
                     .withHour(Integer.parseInt(sat.getText()))
-                    .withMinute(Integer.parseInt(min.getText()));
+                    .withMinute(Integer.parseInt(min.getText()))
+                    .withSecond(0);
             LocalDateTime granica = LocalDateTime.now().withHour(14).withMinute(0);
 
             if (vreme.isBefore(LocalDateTime.now())) {
@@ -109,7 +110,7 @@ public class Rezervacija extends Application {
                 return;
             }
 
-            Podaci.rezervacijeSkaldiste.sadrzaj().add(new RezervacijaEntity(porukaZaSto.getMessage()));
+            Podaci.rezervacijeSkaldiste.sadrzaj().add(new RezervacijaEntity(vreme, porukaZaSto.getMessage(), ime.getText()));
             try {
                 Podaci.rezervacijeSkaldiste.zapisi();
             } catch (IOException e) {

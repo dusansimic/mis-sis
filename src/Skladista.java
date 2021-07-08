@@ -155,11 +155,11 @@ class RezervacijeSkaldiste implements Skladiste<RezervacijaEntity>, Pisar {
         String line;
         while ((line = reader.readLine()) != null) {
             String[] data = line.split(";");
-            if (data.length != 2) {
+            if (data.length != 3) {
                 return;
             }
 
-            RezervacijaEntity rezervacija = new RezervacijaEntity(LocalDateTime.parse(data[0], DateTimeFormatter.ISO_LOCAL_DATE_TIME), Podaci.stolovi[Integer.parseInt(data[1]) - 1]);
+            RezervacijaEntity rezervacija = new RezervacijaEntity(LocalDateTime.parse(data[0], DateTimeFormatter.ISO_LOCAL_DATE_TIME), Podaci.stolovi[Integer.parseInt(data[1]) - 1], data[2]);
             skladiste.add(rezervacija);
         }
 
@@ -171,7 +171,7 @@ class RezervacijeSkaldiste implements Skladiste<RezervacijaEntity>, Pisar {
         BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
 
         for (RezervacijaEntity rezervacija : skladiste) {
-            writer.write(String.format("%s;%d\n", rezervacija.getDatumVreme().toString(), rezervacija.getSto().getBroj()));
+            writer.write(String.format("%s;%d;%s\n", rezervacija.getDatumVreme().toString(), rezervacija.getSto().getBroj(), rezervacija.getIme()));
         }
 
         writer.close();

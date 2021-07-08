@@ -3,15 +3,12 @@ import java.time.LocalDateTime;
 public class RezervacijaEntity {
     private LocalDateTime datumVreme;
     private Sto sto;
+    private String ime;
 
-    public RezervacijaEntity(Sto sto) {
-        this.datumVreme = LocalDateTime.now();
-        this.sto = sto;
-    }
-
-    public RezervacijaEntity(LocalDateTime datumVreme, Sto sto) {
+    public RezervacijaEntity(LocalDateTime datumVreme, Sto sto, String ime) {
         this.datumVreme = datumVreme;
         this.sto = sto;
+        this.ime = ime;
     }
 
     public LocalDateTime getDatumVreme() {
@@ -20,5 +17,9 @@ public class RezervacijaEntity {
 
     public Sto getSto() {
         return sto;
+    }
+
+    public String getIme() {
+        return ime;
     }
 }
