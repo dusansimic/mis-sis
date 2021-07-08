@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Stolovi extends Application {
     public enum Tip {

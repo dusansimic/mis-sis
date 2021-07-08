@@ -58,7 +58,9 @@ public class Racun extends Application {
         obrisiStavkuBtn.setOnAction(actionEvent -> {
             if (stavkeLista.getSelectionModel().getSelectedItem() == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Niste odabrali stavku za brisanje!");
+                alert.setTitle("Greška");
+                alert.setHeaderText("Greška!");
+                alert.setContentText("Nije odabrana stavka za brisanje!");
                 alert.showAndWait();
                 return;
             }

@@ -51,11 +51,15 @@ public class Rezervacija extends Application {
         sacuvajBtn.setOnAction(actionEvent -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             if (datum.getValue() == null) {
+                alert.setTitle("Greška");
+                alert.setHeaderText("Greška!");
                 alert.setContentText("Neispravan unos datuma!");
                 alert.showAndWait();
                 return;
             }
             if (sat.getText().length() == 0 || min.getText().length() == 0) {
+                alert.setTitle("Greška");
+                alert.setHeaderText("Greška!");
                 alert.setContentText("Morate uneti sate i minute za rezervaciju!");
                 alert.showAndWait();
                 return;
@@ -67,11 +71,15 @@ public class Rezervacija extends Application {
                 LocalTime najranije = LocalTime.now().withHour(17).withMinute(0);
                 LocalTime najkasnije = LocalTime.now().withHour(22).withMinute(0);
                 if (odabrano.isBefore(najranije) || odabrano.isAfter(najkasnije)) {
+                    alert.setTitle("Greška");
+                    alert.setHeaderText("Greška!");
                     alert.setContentText("Rezervacije su moguće samo u periodu od 17 do 22h.");
                     alert.showAndWait();
                     return;
                 }
             } catch (Exception e) {
+                alert.setTitle("Greška");
+                alert.setHeaderText("Greška!");
                 alert.setContentText("Neispravno uneti sati i minuti!");
                 alert.showAndWait();
                 return;
@@ -87,24 +95,32 @@ public class Rezervacija extends Application {
             LocalDateTime granica = LocalDateTime.now().withHour(14).withMinute(0);
 
             if (vreme.isBefore(LocalDateTime.now())) {
+                alert.setTitle("Greška");
+                alert.setHeaderText("Greška!");
                 alert.setContentText("Ne može se izabrati prošlo vreme za rezervaciju!");
                 alert.showAndWait();
                 return;
             }
 
             if (LocalDateTime.now().isAfter(granica) && vreme.toLocalDate().equals(granica.toLocalDate())) {
+                alert.setTitle("Greška");
+                alert.setHeaderText("Greška!");
                 alert.setContentText("Ne može se rezervisati za današnji dan posle 14h.");
                 alert.showAndWait();
                 return;
             }
 
             if (porukaZaSto.getMessage() == null) {
+                alert.setTitle("Greška");
+                alert.setHeaderText("Greška!");
                 alert.setContentText("Morate odabrati sto za rezervaciju!");
                 alert.showAndWait();
                 return;
             }
 
             if (ime.getText().length() == 0) {
+                alert.setTitle("Greška");
+                alert.setHeaderText("Greška!");
                 alert.setContentText("Mora se uneti ime za rezervaciju!");
                 alert.showAndWait();
                 return;
@@ -118,6 +134,8 @@ public class Rezervacija extends Application {
             }
 
             Alert uspeh = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Informacija");
+            alert.setHeaderText("Info");
             uspeh.setContentText(String.format("Uspešno rezervisan sto za ime %s", ime.getText()));
             uspeh.showAndWait();
             stage.close();

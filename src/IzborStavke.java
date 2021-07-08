@@ -47,6 +47,8 @@ public class IzborStavke extends Application {
         dodajBtn.setOnAction(actionEvent -> {
             if (kolicinaTf.getText().length() == 0) {
                 Alert prazno = new Alert(Alert.AlertType.ERROR);
+                prazno.setTitle("Greška");
+                prazno.setHeaderText("Greška!");
                 prazno.setContentText("Količina nije uneta.");
                 prazno.showAndWait();
                 return;
@@ -54,12 +56,16 @@ public class IzborStavke extends Application {
             try {
                 if (Integer.parseInt(kolicinaTf.getText()) < 1) {
                     Alert negativanBroj = new Alert(Alert.AlertType.ERROR);
+                    negativanBroj.setTitle("Greška");
+                    negativanBroj.setHeaderText("Greška!");
                     negativanBroj.setContentText("Količina ne može biti negativna.");
                     negativanBroj.showAndWait();
                     return;
                 }
             } catch (Exception e) {
                 Alert NaN = new Alert(Alert.AlertType.ERROR);
+                NaN.setTitle("Greška");
+                NaN.setHeaderText("Greška!");
                 NaN.setContentText("Nije unet broj.");
                 NaN.showAndWait();
                 return;

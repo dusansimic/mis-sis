@@ -34,6 +34,8 @@ public class Login extends Application {
         loginBtn.setOnAction((actionEvent) -> {
             if (!username.getText().equals("user") || !password.getText().equals("pass")) {
                 Alert podaci = new Alert(Alert.AlertType.ERROR);
+                podaci.setTitle("Greška");
+                podaci.setHeaderText("Greška!");
                 podaci.setContentText("Netačni podaci!");
                 podaci.showAndWait();
                 return;
